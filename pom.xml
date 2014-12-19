@@ -38,5 +38,6 @@
 		<module>UI</module>
 		<module>BL</module>
 		<module>Storage</module>
+		<module>Bootstraper</module>
 	</modules>
 </project>

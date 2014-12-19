@@ -5,13 +5,6 @@
     <artifactId>Brains</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>Storage</artifactId>
-  <name>Storage</name>
-  <dependencies>
-  	<dependency>
-  		<groupId>Brains</groupId>
-  		<artifactId>BL</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
+  <artifactId>Bootstraper</artifactId>
+  <name>Bootstraper</name>
 </project>

@@ -1,29 +1,29 @@
 package model.user;
 
 import model.game.GameInfo;
+import model.teaser.TeaserType;
 
-public class UserSolvingInfo {
+/**
+ * @author Dmitri Belous
+ * @version 1.0
+ * @created 19-Dec-2014 11:30:04
+ */
+public abstract class UserSolvingTeaserTypeInfo {
 
-	private long rating;
-	private final long userId;
 	private long countAutoSolved;
 	private long countSolved;
 	private long hintCount;
+	private long rating;
+	private final TeaserType teaserType;
 	private long totalTime;
+	private final long userId;
 	private long averageTime;
 
-	public UserSolvingInfo(long userId) {
+	public UserSolvingTeaserTypeInfo(long userId, TeaserType teaserType2) {
 		this.userId = userId;
+		this.teaserType = teaserType2;
 	}
 
-	public void add(long addRating) {
-		rating += addRating;
-	}
-
-	public void subtract(long subRating) {
-		rating -= subRating;
-	}
-	
 	public void addSolution(GameInfo gameInfo){
 		if (gameInfo.isAutoSolved()) {
 			countAutoSolved++;
@@ -31,15 +31,34 @@ public class UserSolvingInfo {
 		countSolved++;
 		hintCount += gameInfo.getHintCount();
 		totalTime += gameInfo.time();
-		calculateAverageTime();
+		calculateAverageTime(); // call it before calculateRating()
+		calculateRating();
 	}
 
 	private void calculateAverageTime() {
 		averageTime = Math.round((double)totalTime / countSolved);
 	}
+	
+	private void calculateRating() {
+		rating = (int) (1000. * countSolved / (hintCount + 0.00001*totalTime + 10*countAutoSolved));
+	}
 
-	public double getRating(){
+	public long getRating(){
 		return rating;
+	}
+
+	/**
+	 * @return the averageTime
+	 */
+	public long getAverageTime() {
+		return averageTime;
+	}
+
+	/**
+	 * @return the teaserType
+	 */
+	public TeaserType getTeaserType() {
+		return teaserType;
 	}
 
 	/**
@@ -75,13 +94,6 @@ public class UserSolvingInfo {
 	 */
 	public long getTotalTime() {
 		return totalTime;
-	}
-
-	/**
-	 * @return the averageTime
-	 */
-	public long getAverageTime() {
-		return averageTime;
 	}
 
 }

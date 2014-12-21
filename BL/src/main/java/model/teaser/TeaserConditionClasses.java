@@ -7,6 +7,10 @@ public class TeaserConditionClasses {
 
 	private static final Map<TeaserType, Class<? extends TeaserCondition>> classes = new EnumMap<>(TeaserType.class);
 	
+	static {
+		classes.put(TeaserType.SUDOKU, SudokuTeaserCondition.class);
+	}
+	
 	private TeaserConditionClasses() {
 	}
 	

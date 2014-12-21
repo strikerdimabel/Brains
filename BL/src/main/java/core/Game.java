@@ -18,13 +18,12 @@ public class Game {
 
 	public Game(TeaserCondition teaserCondition){
 		gameInfo = new GameInfo();
-		this.solver = Solvers.newSolver(teaserCondition);
+		this.solver = SolverFactory.newSolver(teaserCondition);
 		this.teaserCondition = teaserCondition;
 	}
 
-	public Teaser autoSolve() {
+	public void autoSolve() {
 		gameInfo.setAutoSolved();
-		return solver.solve();
 	}
 
 	public Step doHintStep(){
@@ -49,6 +48,10 @@ public class Game {
 	
 	public Teaser getTeaser() {
 		return solver.getTeaser();
+	}
+	
+	public GameInfo getGameInfo() {
+		return gameInfo;
 	}
 
 }

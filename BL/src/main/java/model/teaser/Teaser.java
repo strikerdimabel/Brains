@@ -10,10 +10,6 @@ public abstract class Teaser {
 	private long id;
 	private long teaserId;
 
-	public Teaser(){
-
-	}
-
 	/**
 	 * @return the id
 	 */

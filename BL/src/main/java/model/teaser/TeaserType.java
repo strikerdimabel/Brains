@@ -7,6 +7,6 @@ package model.teaser;
 public enum TeaserType {
 	
 	SUDOKU,
-	SNAIL,
+//	SNAIL,
 	
 }

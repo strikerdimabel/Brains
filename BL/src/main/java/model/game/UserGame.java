@@ -18,12 +18,16 @@ public class UserGame {
 	/**
 	 * @param object
 	 */
-	public boolean equals(Object object){
-		return false;
+	public boolean equals(Object object) {
+		if (!(object instanceof UserGame)) {
+			return false;
+		}
+		UserGame userGame = (UserGame) object;
+		return userGame.teaserId == teaserId && userGame.userId == userId;
 	}
 
-	public int hashCode(){
-		return 0;
+	public int hashCode() {
+		return (int) ((teaserId>>>32)^(userId>>>32)^teaserId^userId);
 	}
 
 	/**

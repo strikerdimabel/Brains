@@ -32,8 +32,19 @@ public class GameInfo {
 	/**
 	 * @return the hintCount
 	 */
-	public long incHintCount() {
+	public void incHintCount() {
+		++hintCount;
+	}
+
+	/**
+	 * @return the hintCount
+	 */
+	public long getHintCount() {
 		return hintCount;
+	}
+	
+	public long time() {
+		return System.currentTimeMillis() - begTime;
 	}
 
 }

@@ -1,5 +1,7 @@
 package model.teaser;
 
+import model.game.GameInfo;
+
 /**
  * @author Dmitri Belous
  * @version 1.0
@@ -9,30 +11,44 @@ public class TeaserSolvingInfo {
 
 	private long autoSolvingCount;
 	private long countSolved;
-	private double difficulty;
+	private int difficulty = 10;
 	private long hintCount;
-	private long teaserId;
+	private final long teaserId;
 	private long totalTime;
+	private long averageTime;
 
-	public TeaserSolvingInfo(){
+	public TeaserSolvingInfo(long teaserId) {
+		this.teaserId = teaserId;
+	}
+	
+	public void addSolution(GameInfo gameInfo) {
+		countSolved++;
+		if (gameInfo.isAutoSolved()) {
+			autoSolvingCount++;
+		}
+		hintCount += gameInfo.getHintCount();
+		totalTime += gameInfo.time();
+		calculateAverageTime(); // call it before calculateDifficulty
+		calculateDifficulty();
+	}
 
+	private void calculateAverageTime() {
+		averageTime = Math.round((double)totalTime / countSolved);
+	}
+	
+	private void calculateDifficulty(){
+		difficulty = (int) (1000. * countSolved / (hintCount + 0.00001*totalTime + 10*autoSolvingCount));
+	}
+
+	public int getDifficulty(){
+		return difficulty;
 	}
 
 	/**
-	 * @param time
-	 * @param hintCount
-	 * @param autoSolving
+	 * @return the averageTime
 	 */
-	public void addSolution(long time, long hintCount, boolean autoSolving){
-
-	}
-
-	private void calculateDifficulty(){
-
-	}
-
-	public double getDifficulty(){
-		return difficulty;
+	public long getAverageTime() {
+		return averageTime;
 	}
 
 	/**
@@ -40,13 +56,6 @@ public class TeaserSolvingInfo {
 	 */
 	public long getTeaserId() {
 		return teaserId;
-	}
-
-	/**
-	 * @param teaserId the teaserId to set
-	 */
-	public void setTeaserId(long teaserId) {
-		this.teaserId = teaserId;
 	}
 
 }

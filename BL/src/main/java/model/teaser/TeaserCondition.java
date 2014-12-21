@@ -10,10 +10,6 @@ public abstract class TeaserCondition {
 	private long teaserId;
 	private TeaserType teaserType;
 
-	public TeaserCondition(){
-
-	}
-
 	/**
 	 * @return the teaserId
 	 */

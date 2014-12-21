@@ -7,9 +7,9 @@ package model.teaser;
  */
 public class SudokuTeaserCondition extends TeaserCondition {
 
-	private final int size = 9;
-	private final int rowsSmall = 3;
-	private final int cmnsSmall = 3;
+	private int size = 9;
+	private int rowsSmall = 3;
+	private int cmnsSmall = 3;
 	private int[][] matrix = new int[size][size];
 
 	public SudokuTeaserCondition() {
@@ -41,6 +41,18 @@ public class SudokuTeaserCondition extends TeaserCondition {
 
 	public int cmnsSmallSize() {
 		return cmnsSmall;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 9; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				sb.append(matrix[i][j] + " ");
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
 	}
 
 }

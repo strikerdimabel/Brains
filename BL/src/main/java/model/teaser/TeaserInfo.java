@@ -11,10 +11,6 @@ public class TeaserInfo {
 	private long teaserId;
 	private TeaserType type;
 
-	public TeaserInfo(){
-
-	}
-
 	/**
 	 * @return the name
 	 */

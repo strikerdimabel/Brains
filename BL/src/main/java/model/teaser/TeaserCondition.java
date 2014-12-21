@@ -1,5 +1,10 @@
 package model.teaser;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * @author Dmitri Belous
  * @version 1.0
@@ -7,28 +12,12 @@ package model.teaser;
  */
 public abstract class TeaserCondition {
 
+	@Id
+	@GenericGenerator(name="increment", strategy = "increment") 
+	@GeneratedValue(generator="increment")
 	private long teaserId;
-	private TeaserType teaserType;
-
-	/**
-	 * @return the teaserId
-	 */
-	public long getTeaserId() {
-		return teaserId;
-	}
-
-	/**
-	 * @param teaserId the teaserId to set
-	 */
-	public void setTeaserId(long teaserId) {
-		this.teaserId = teaserId;
-	}
-
-	/**
-	 * @return the teaserType
-	 */
-	public TeaserType getTeaserType() {
-		return teaserType;
-	}
+	
+	public abstract long getTeaserId();
+	public abstract void setTeaserId(long teaserId);
 	
 }

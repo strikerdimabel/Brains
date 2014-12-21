@@ -1,16 +1,31 @@
 package model.teaser;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * @author Dmitri Belous
  * @version 1.0
  * @created 19-Dec-2014 11:29:39
  */
+@Entity
 public class TeaserInfo {
 
 	private String name;
+	
+	@Id
+	@GenericGenerator(name="increment", strategy = "increment") 
+	@GeneratedValue(generator="increment")
 	private long teaserId;
-	private TeaserType type;
-
+	
+	@Enumerated(EnumType.STRING)
+	private TeaserType teaserType;
+	
 	/**
 	 * @return the name
 	 */
@@ -42,15 +57,15 @@ public class TeaserInfo {
 	/**
 	 * @return the type
 	 */
-	public TeaserType getType() {
-		return type;
+	public TeaserType getTeaserType() {
+		return teaserType;
 	}
 
 	/**
 	 * @param type the type to set
 	 */
 	public void setType(TeaserType type) {
-		this.type = type;
+		this.teaserType = type;
 	}
 
 }

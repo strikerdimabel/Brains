@@ -16,13 +16,13 @@ public abstract class UserSolvingTeaserTypeInfo {
 	private long rating;
 	private final TeaserType teaserType;
 	private long totalTime;
-	private final long userId;
 	private long averageTime;
 
-	public UserSolvingTeaserTypeInfo(long userId, TeaserType teaserType2) {
-		this.userId = userId;
+	public UserSolvingTeaserTypeInfo(TeaserType teaserType2) {
 		this.teaserType = teaserType2;
 	}
+
+	public abstract long getUserId();
 
 	public void addSolution(GameInfo gameInfo){
 		if (gameInfo.isAutoSolved()) {
@@ -59,13 +59,6 @@ public abstract class UserSolvingTeaserTypeInfo {
 	 */
 	public TeaserType getTeaserType() {
 		return teaserType;
-	}
-
-	/**
-	 * @return the userId
-	 */
-	public long getUserId() {
-		return userId;
 	}
 
 	/**

@@ -1,5 +1,11 @@
 package model.teaser;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import model.game.GameInfo;
 
 /**
@@ -7,13 +13,18 @@ import model.game.GameInfo;
  * @version 1.0
  * @created 19-Dec-2014 11:29:45
  */
+@Entity
 public class TeaserSolvingInfo {
 
+	@Id
+	@GenericGenerator(name="increment", strategy = "increment") 
+	@GeneratedValue(generator="increment")
+	private final long teaserId;
+	
 	private long autoSolvingCount;
 	private long countSolved;
 	private int difficulty = 10;
 	private long hintCount;
-	private final long teaserId;
 	private long totalTime;
 	private long averageTime;
 

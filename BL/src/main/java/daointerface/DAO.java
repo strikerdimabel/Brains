@@ -9,16 +9,16 @@ import java.util.List;
  */
 public interface DAO {
 
-	<T> void delete(long id, Class<T> tClass);
+	<T> void delete(Class<T> tClass, long id);
 
 	<T> List<T> getAll(Class<T> tClass);
 
 	<T> T getByUniqueField(Class<T> tClass, String fieldName, Object field);
 
-	<T> T getEntityById(long id, Class<T> tClass);
+	<T> T getEntityById(Class<T> tClass, long id);
 
-	<T> boolean saveEntity(T solution, Class<? extends T> class1);
+	<T> void saveEntity(T obj);
 	
-	<T> boolean exist(long id, Class<? extends T> class1);
+	<T> boolean exist(Class<? extends T> class1, long id);
 
 }

@@ -1,11 +1,22 @@
 package model.user;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import model.game.GameInfo;
 
+@Entity
 public class UserSolvingInfo {
 
-	private long rating;
+	@Id
+	@GenericGenerator(name="increment", strategy = "increment") 
+	@GeneratedValue(generator="increment")
 	private final long userId;
+
+	private long rating;
 	private long countAutoSolved;
 	private long countSolved;
 	private long hintCount;

@@ -1,5 +1,10 @@
 package model.user;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * @author Dmitri Belous
  * @version 1.0
@@ -7,11 +12,15 @@ package model.user;
  */
 public class UserInfo {
 
+	@Id
+	@GenericGenerator(name="increment", strategy = "increment") 
+	@GeneratedValue(generator="increment")
+	private long userId;
+
 	private int age;
 	private String eMail;
 	private String firstName;
 	private String lastName;
-	private long userId;
 
 	public UserInfo(){
 

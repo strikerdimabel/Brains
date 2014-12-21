@@ -32,8 +32,8 @@ public class SolverFactory {
 	private SolverFactory() {
 	}
 		
-	public static Solver newSolver(TeaserCondition teaserCondition) {
-		return solvers.get(teaserCondition.getTeaserType()).newSolver(teaserCondition);
+	public static Solver newSolver(TeaserCondition teaserCondition, TeaserType teaserType) {
+		return solvers.get(teaserType).newSolver(teaserCondition);
 	}
 	
 }

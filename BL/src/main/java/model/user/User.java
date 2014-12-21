@@ -1,17 +1,32 @@
 package model.user;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * @author Dmitri Belous
  * @version 1.0
  * @created 19-Dec-2014 11:29:57
  */
+@Entity
 public class User {
 
-	private String login;
-	private String password;
-	private String role;
+	@Id
+	@GenericGenerator(name="increment", strategy = "increment") 
+	@GeneratedValue(generator="increment")
 	private long userId;
-
+	
+	private String login;	
+	private String password;	
+	
+	@Enumerated(EnumType.STRING)
+	private Role role = Role.USER;
+	
 	public User(){
 
 	}
@@ -47,14 +62,14 @@ public class User {
 	/**
 	 * @return the role
 	 */
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
 	/**
 	 * @param role the role to set
 	 */
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

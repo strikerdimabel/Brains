@@ -6,23 +6,11 @@ package model.teaser;
  * @created 19-Dec-2014 11:29:33
  */
 public abstract class Teaser {
-
-	private long id;
+	
 	private long teaserId;
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
+	public abstract long getId();
+	public abstract void setId(long id);
 
 	/**
 	 * @return the teaserId

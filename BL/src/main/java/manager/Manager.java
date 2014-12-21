@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import core.Game;
-import core.Solver;
-import core.SolverFactory;
-import daointerface.DAO;
 import model.game.GameInfo;
 import model.game.Step;
 import model.game.UserGame;
@@ -23,6 +19,10 @@ import model.user.UserSolvingInfo;
 import model.user.UserSolvingTeaserTypeClasses;
 import model.user.UserSolvingTeaserTypeInfo;
 import model.user.UserSolvingTeaserTypeInfoFactory;
+import core.Game;
+import core.Solver;
+import core.SolverFactory;
+import daointerface.DAO;
 
 /**
  * @author Dmitri Belous
@@ -39,16 +39,16 @@ public class Manager {
 	}
 	
 	public boolean addTeaser(TeaserCondition cond, TeaserInfo info) {
-		Solver solver = SolverFactory.newSolver(cond);
+		Solver solver = SolverFactory.newSolver(cond, info.getTeaserType());
 		Teaser solution = solver.solve();
 		if (solution == null) {
 			return false;
 		}
-		dao.saveEntity(info, TeaserInfo.class);
+		dao.saveEntity(info);
 		solution.setTeaserId(info.getTeaserId());
-		dao.saveEntity(solution, solution.getClass());
+		dao.saveEntity(solution);
 		cond.setTeaserId(info.getTeaserId());
-		dao.saveEntity(cond, cond.getClass());
+		dao.saveEntity(cond);
 		return true;
 	}
 
@@ -57,19 +57,19 @@ public class Manager {
 		if (user2 != null) {
 			return false;
 		}
-		dao.saveEntity(user, User.class);
+		dao.saveEntity(user);
 		userInfo.setUserId(user.getUserId());
-		dao.saveEntity(userInfo, UserInfo.class);
+		dao.saveEntity(userInfo);
 		return true;
 	}
 
-	public Teaser begin(UserGame userGame) {
+	public Teaser begin(UserGame userGame, TeaserType teaserType) {
 		Game game = games.get(userGame);
 		if (!games.containsKey(userGame)) {
-			TeaserInfo teaserInfo = dao.getEntityById(userGame.getTeaserId(), TeaserInfo.class);
-			Class<? extends TeaserCondition> tClass = TeaserConditionClasses.getTeaserConditionClass(teaserInfo.getType());
-			TeaserCondition condition = dao.getEntityById(userGame.getTeaserId(), tClass);
-			game = new Game(condition);
+			TeaserInfo teaserInfo = dao.getEntityById(TeaserInfo.class, userGame.getTeaserId());
+			Class<? extends TeaserCondition> tClass = TeaserConditionClasses.getTeaserConditionClass(teaserInfo.getTeaserType());
+			TeaserCondition condition = dao.getEntityById(tClass, userGame.getTeaserId());
+			game = new Game(condition, teaserType);
 			games.put(userGame, game);
 		}
 		return game.getTeaser();
@@ -84,7 +84,7 @@ public class Manager {
 	}
 
 	public void deleteTeaser(long teaserId) {
-		dao.delete(teaserId, TeaserInfo.class);
+		dao.delete(TeaserInfo.class, teaserId);
 	}
 
 	public boolean doStep(UserGame userGame, Step step) {
@@ -99,17 +99,17 @@ public class Manager {
 		if (game.isFinished()) {
 			long tId = userGame.getTeaserId();
 			long uId = userGame.getUserId();
-			TeaserType teaserType = game.getTeaserCondition().getTeaserType();
-			TeaserSolvingInfo teaserSolvingInfo = dao.getEntityById(tId, TeaserSolvingInfo.class);
+			TeaserType teaserType = game.getTeaserType();
+			TeaserSolvingInfo teaserSolvingInfo = dao.getEntityById(TeaserSolvingInfo.class, tId);
 			if (teaserSolvingInfo == null) {
 				teaserSolvingInfo = new TeaserSolvingInfo(tId);
 			}
 			Class<? extends UserSolvingTeaserTypeInfo> usttiClass = UserSolvingTeaserTypeClasses.getUserSolvingTeaserTypeClass(teaserType);
-			UserSolvingTeaserTypeInfo userSolvingTeaserTypeInfo = dao.getEntityById(uId, usttiClass);
+			UserSolvingTeaserTypeInfo userSolvingTeaserTypeInfo = dao.getEntityById(usttiClass, uId);
 			if (userSolvingTeaserTypeInfo == null) {
 				userSolvingTeaserTypeInfo = UserSolvingTeaserTypeInfoFactory.newUserSolvingTeaserTypeInfo(uId, teaserType);
 			}
-			UserSolvingInfo userSolvingInfo = dao.getEntityById(uId, UserSolvingInfo.class);
+			UserSolvingInfo userSolvingInfo = dao.getEntityById(UserSolvingInfo.class, uId);
 			if (userSolvingInfo == null) {
 				userSolvingInfo = new UserSolvingInfo(uId);
 			}
@@ -118,9 +118,9 @@ public class Manager {
 			userSolvingTeaserTypeInfo.addSolution(gameInfo);
 			userSolvingInfo.add(userSolvingTeaserTypeInfo.getRating());
 			userSolvingInfo.addSolution(gameInfo);
-			dao.saveEntity(teaserSolvingInfo, TeaserSolvingInfo.class);
-			dao.saveEntity(userSolvingTeaserTypeInfo, UserSolvingTeaserTypeClasses.getUserSolvingTeaserTypeClass(teaserType));
-			dao.saveEntity(userSolvingInfo, UserSolvingTeaserTypeInfo.class);
+			dao.saveEntity(teaserSolvingInfo);
+			dao.saveEntity(userSolvingTeaserTypeInfo);
+			dao.saveEntity(userSolvingInfo);
 		}
 		return gameInfo;
 	}
@@ -133,7 +133,7 @@ public class Manager {
 	public Teaser getSolution(UserGame userGame) {
 		Game game = games.get(userGame);
 		game.autoSolve();
-		return dao.getEntityById(userGame.getTeaserId(), game.getTeaser().getClass());
+		return dao.getEntityById(game.getTeaser().getClass(), userGame.getTeaserId());
 	}
 
 	public TeaserCondition getTeaserCondition(UserGame userGame) {
@@ -150,7 +150,7 @@ public class Manager {
 	}
 
 	public UserInfo getUserInfo(long userId){
-		return dao.getEntityById(userId, UserInfo.class);
+		return dao.getEntityById(UserInfo.class, userId);
 	}
 
 	public List<UserSolvingTeaserTypeInfo> getUsersSolvingInfo(){

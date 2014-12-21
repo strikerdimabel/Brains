@@ -3,6 +3,7 @@ package core;
 import model.game.GameInfo;
 import model.game.Step;
 import model.teaser.Teaser;
+import model.teaser.TeaserCondition;
 
 /**
  * @author Dmitri Belous
@@ -13,10 +14,12 @@ public class Game {
 
 	private final GameInfo gameInfo;
 	private final Solver solver;
+	private final TeaserCondition teaserCondition;
 
-	public Game(Solver solver){
+	public Game(TeaserCondition teaserCondition){
 		gameInfo = new GameInfo();
-		this.solver = solver;
+		this.solver = Solvers.newSolver(teaserCondition);
+		this.teaserCondition = teaserCondition;
 	}
 
 	public Teaser autoSolve() {
@@ -30,11 +33,22 @@ public class Game {
 	}
 
 	public boolean doStep(Step step){
-		return solver.getTeaserManager().doStep(step);
+		return solver.doStep(step);
 	}
 
 	public boolean isFinished(){
-		return solver.getTeaserManager().isFinished();
+		return solver.isFinished();
+	}
+	
+	/**
+	 * @return the teaserCondition
+	 */
+	public TeaserCondition getTeaserCondition() {
+		return teaserCondition;
+	}
+	
+	public Teaser getTeaser() {
+		return solver.getTeaser();
 	}
 
 }

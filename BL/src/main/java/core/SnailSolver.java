@@ -4,13 +4,11 @@ import model.game.Step;
 import model.teaser.Teaser;
 import model.teaser.TeaserCondition;
 
-public class SnailSolver extends Solver {
+public class SnailSolver implements Solver {
 
 	public SnailSolver(TeaserCondition teaserCondition) {
-		super(teaserCondition);
 	}
 
-	@Override
 	protected void init() {
 		// TODO Auto-generated method stub
 	}
@@ -23,6 +21,24 @@ public class SnailSolver extends Solver {
 
 	@Override
 	public Step solveOneStep() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean doStep(Step step) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Teaser getTeaser() {
 		// TODO Auto-generated method stub
 		return null;
 	}

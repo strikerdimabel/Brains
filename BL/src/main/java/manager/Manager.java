@@ -48,7 +48,7 @@ public class Manager {
 		return true;
 	}
 
-	public boolean addUser(User user, UserInfo userInfo){
+	public boolean addUser(User user, UserInfo userInfo) {
 		User user2 = dao.getByUniqueField(User.class, "login", user.getLogin());
 		if (user2 != null) {
 			return false;
@@ -59,16 +59,19 @@ public class Manager {
 		return true;
 	}
 
-	public int begin(long userId, long teaserId) {
-		TeaserInfo teaserInfo = dao.getEntityById(teaserId, TeaserInfo.class);
-		Class<? extends TeaserCondition> tClass = TeaserConditionClasses.getTeaserConditionClass(teaserInfo.getType());
-		TeaserCondition condition = dao.getEntityById(teaserId, tClass);
-		Solver solver = Solvers.newSolver(condition);
-		games.put(new UserGame(teaserId, userId), new Game(solver));
-		return 0;
+	public TeaserCondition begin(UserGame userGame) {
+		Game game = games.get(userGame);
+		if (!games.containsKey(userGame)) {
+			TeaserInfo teaserInfo = dao.getEntityById(userGame.getTeaserId(), TeaserInfo.class);
+			Class<? extends TeaserCondition> tClass = TeaserConditionClasses.getTeaserConditionClass(teaserInfo.getType());
+			TeaserCondition condition = dao.getEntityById(userGame.getTeaserId(), tClass);
+			game = new Game(condition);
+			games.put(userGame, game);
+		}
+		return game.;
 	}
 
-	public boolean checkUser(User user){
+	public boolean checkUser(User user) {
 		User user2 = dao.getByUniqueField(User.class, "login", user.getLogin());
 		if (user2 == null) {
 			return false;
@@ -76,10 +79,12 @@ public class Manager {
 		return user2.getPassword().equals(user.getPassword());
 	}
 
-	public void deleteTeaser(long teaserId){
+	public void deleteTeaser(long teaserId) {
+		dao.delete(teaserId, TeaserInfo.class);
 	}
 
-	public boolean doStep(UserGame game, Step step){
+	public boolean doStep(UserGame game, Step step) {
+		
 		return false;
 	}
 

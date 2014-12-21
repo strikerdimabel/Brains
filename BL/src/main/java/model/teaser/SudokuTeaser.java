@@ -7,31 +7,51 @@ package model.teaser;
  */
 public class SudokuTeaser extends Teaser {
 
-	private Cell[][] matrix;
-	public Cell m_Cell;
+	private final int[][] matrix;
+	private final int size;
 
-	public SudokuTeaser(TeaserCondition teaserCondition){
+	public SudokuTeaser(SudokuTeaserCondition teaserCondition) {
+		size = teaserCondition.size();
+		matrix = new int[size][size];
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				matrix[i][j] = teaserCondition.get(i, j);
+			}
+		}
 	}
 
-	public void finalize() throws Throwable {
-		super.finalize();
+	public SudokuTeaser(SudokuTeaser teaser) {
+		size = teaser.size();
+		matrix = new int[size][size];
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				matrix[i][j] = teaser.get(i, j);
+			}
+		}
 	}
 
-	/**
-	 * @param i
-	 * @param j
-	 */
-	public Cell get(int i, int j){
-		return null;
+	public int get(int i, int j) {
+		return matrix[i][j];
 	}
 
-	/**
-	 * @param i
-	 * @param j
-	 * @param value
-	 */
-	public void set(int i, int j, Cell value){
-
+	public void set(int i, int j, int value) {
+		matrix[i][j] = value;
 	}
-
+	
+	public int size() {
+		return size;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 9; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				sb.append(matrix[i][j] + " ");
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+	
 }

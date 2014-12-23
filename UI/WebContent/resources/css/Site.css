@@ -43,17 +43,50 @@ html, body, .content-wrapper {
 
 .float-left {
 	float: left;
+	height: 100%;
+}
+
+.my-header {
+	line-height: 50px;
+}
+
+.float-right .btn {
+margin-top: 8px;
 }
 
 .float-right {
 	margin: 10px;
 	float: right;
+	height:100%;
+	vertical-align: middle;
 }
 
 .site-title {
-	color: #c8c8c8;
+	color: #fff;
 	font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
 	font-size: 2.3em;
+	margin: 10px;
+}
+
+#teaser-types {
+	font-size: 18px;
+}
+
+#page-content {
+	font-size: 18px;
+	margin: 50px;
+}
+
+.table-hover th {
+	background-color: #8e9da6;
+}
+
+#teasers {
+	margin-top: 50px;
+}
+
+#teasers tr {
+	border-bottom: 1px solid black;
 }
 
 /* menu
@@ -84,4 +117,8 @@ ul#menu li a:hover {
 
 ul#menu .choosed {
 	color: #000;
+}
+
+#login-form {
+	margin-top: 50px;
 }

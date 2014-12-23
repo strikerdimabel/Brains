@@ -82,6 +82,8 @@ public class Manager {
 		if (user2 == null) {
 			return false;
 		}
+		user.setUserId(user2.getUserId());
+		user.setRole(user2.getRole());
 		return user2.getPassword().equals(user.getPassword());
 	}
 
@@ -147,6 +149,11 @@ public class Manager {
 		Game game = games.get(userGame);
 		return game.getTeaserCondition();
 	}
+	
+	public Teaser getTeaser(UserGame userGame) {
+		Game game = games.get(userGame);
+		return game.getTeaser();
+	}
 
 	public List<TeaserInfo> getTeasersInfo() {
 		return dao.getAll(TeaserInfo.class);
@@ -160,13 +167,22 @@ public class Manager {
 		return dao.getEntityById(UserInfo.class, userId);
 	}
 
-	public List<UserSolvingTeaserTypeInfo> getUsersSolvingInfo(){
-		return dao.getAll(UserSolvingTeaserTypeInfo.class);
+	@SuppressWarnings("unchecked")
+	public List<UserSolvingTeaserTypeInfo> getUsersSolvingTypeInfo(TeaserType teaserType) {
+		return (List<UserSolvingTeaserTypeInfo>) dao.getAll(UserSolvingTeaserTypeClasses.getUserSolvingTeaserTypeClass(teaserType));
+	}
+	
+	public List<UserSolvingInfo> getUsersSolvingInfo() {
+		return dao.getAll(UserSolvingInfo.class);
 	}
 
 	public boolean isFinished(UserGame userGame){
 		Game game = games.get(userGame);
 		return game.isFinished();
+	}
+	
+	public List<User> getUsers() {
+		return dao.getAll(User.class);
 	}
 	
 }

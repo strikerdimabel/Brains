@@ -1,3 +1,5 @@
+<%@page import="model.user.Role"%>
+<%@page import="model.user.User"%>
 <%@page import="model.teaser.TeaserType"%>
 <%@page import="model.teaser.TeaserInfo"%>
 <%@page import="model.teaser.SudokuTeaserCondition"%>
@@ -18,14 +20,33 @@
 </head>
 <body>
 	<div class="content-wrapper">
+	<div class="my-header">
 		<div class="float-left">
 			<p class="site-title">Do it!</p>
 		</div>
 		<div class="float-right">
 			<a class="btn btn-info" href="registration">Registration</a>
 		</div>
-		<div class="float-right">
-			<a class="btn btn-info" href="login">Login</a>
+		<%
+			User user = (User) request.getSession().getAttribute("user");
+		%>
+		<c:if test="${user==null}">
+			<div class="float-right">
+				<a class="btn btn-info" href="login">Login</a>
+			</div>
+		</c:if>
+		<c:if test="${user!=null}">
+			<div class="float-right"><a class="btn btn-info" href="logout">Logout</a></div>
+		</c:if>
+		<c:if test="${user!=null}">
+			<div class="float-right">${user.getLogin()}</div>
+			<% if (user.getRole().equals(Role.ADMIN)) { %>
+			<div class="float-right">Administrator:</div>
+			<% } %>
+			<% if (user.getRole().equals(Role.USER)) { %>
+			<div class="float-right">User:</div>
+			<% } %>
+		</c:if>
 		</div>
 		<div id="div-menu">
 			<ul id="menu">
@@ -35,51 +56,58 @@
 				<li><a href="../profile">Profile</a></li>
 			</ul>
 		</div>
-		<div class="game">
-		<%
-			TeaserInfo teaserInfo = ((GameModel) request.getAttribute("game"))
-					.getTeaserInfo();
-			switch (teaserInfo.getTeaserType()) {
-
-				case SUDOKU : {
-		%>
-		<table class="sudoku">
-			<%
-				SudokuTeaserCondition cnd = (SudokuTeaserCondition) ((GameModel) request
-								.getAttribute("game")).getCnd();
-						for (int i = 0; i < cnd.getSize(); i++) {
-			%><tr class="">
+		<div id="page-content">
+		<c:if test="${user!=null}">
+			<div class="game">
 				<%
-					for (int j = 0; j < cnd.getSize(); ++j) {
+					TeaserInfo teaserInfo = ((GameModel) request
+								.getAttribute("game")).getTeaserInfo();
+						switch (teaserInfo.getTeaserType()) {
+
+							case SUDOKU : {
 				%>
-				<td class="<%
-						if (cnd.get(i, j) != 0) {
-											out.print("cnd");
-										}
-					%>">
+				<table class="sudoku">
 					<%
-						if (cnd.get(i, j) != 0) {
-											out.print(cnd.get(i, j));
-										}
+						SudokuTeaserCondition cnd = (SudokuTeaserCondition) ((GameModel) request
+											.getAttribute("game")).getCnd();
+									for (int i = 0; i < cnd.getSize(); i++) {
+					%><tr class="">
+						<%
+							for (int j = 0; j < cnd.getSize(); ++j) {
+						%>
+						<td
+							class="<%if (cnd.get(i, j) != 0) {
+									out.print("cnd");
+								}%>">
+							<%
+								if (cnd.get(i, j) != 0) {
+														out.print(cnd.get(i, j));
+													}
+							%>
+						</td>
+						<%
+							}
+						%>
+					</tr>
+					<%
+						}
 					%>
-				</td>
+
+				</table>
+				<script type="text/javascript">
+					drawSudoku();
+				</script>
+
 				<%
-					}
+					break;
+						}
+						}
 				%>
-			</tr>
-			<%
-				}
-			%>
-
-		</table>
-		<script type="text/javascript">
-			drawSudoku();
-		</script>
-
-		<%
-				break;}
-				}
-		%>
+			</div>
+		</c:if>
+		<c:if test="${user==null}">
+			<div class='alert alert-info'>You must login.</div>
+		</c:if>
 		</div>
 	</div>
 </body>

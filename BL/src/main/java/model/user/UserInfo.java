@@ -1,5 +1,6 @@
 package model.user;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
@@ -7,6 +8,7 @@ import javax.persistence.Id;
  * @version 1.0
  * @created 19-Dec-2014 11:30:00
  */
+@Entity
 public class UserInfo {
 
 	@Id

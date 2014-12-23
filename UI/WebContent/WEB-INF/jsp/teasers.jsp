@@ -1,3 +1,5 @@
+<%@page import="model.user.Role"%>
+<%@page import="model.user.User"%>
 <%@page import="model.teaser.TeaserType"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -16,14 +18,33 @@
 </head>
 <body>
 	<div class="content-wrapper">
+	<div class="my-header">
 		<div class="float-left">
 			<p class="site-title">Teasers</p>
 		</div>
 		<div class="float-right">
 			<a class="btn btn-info" href="registration">Registration</a>
 		</div>
-		<div class="float-right">
-			<a class="btn btn-info" href="login">Login</a>
+		<%
+			User user = (User) request.getSession().getAttribute("user");
+		%>
+		<c:if test="${user==null}">
+			<div class="float-right">
+				<a class="btn btn-info" href="login">Login</a>
+			</div>
+		</c:if>
+		<c:if test="${user!=null}">
+			<div class="float-right"><a class="btn btn-info" href="logout">Logout</a></div>
+		</c:if>
+		<c:if test="${user!=null}">
+			<div class="float-right">${user.getLogin()}</div>
+			<% if (user.getRole().equals(Role.ADMIN)) { %>
+			<div class="float-right">Administrator:</div>
+			<% } %>
+			<% if (user.getRole().equals(Role.USER)) { %>
+			<div class="float-right">User:</div>
+			<% } %>
+		</c:if>
 		</div>
 		<div id="div-menu">
 			<ul id="menu">
@@ -33,18 +54,18 @@
 				<li><a href="profile">Profile</a></li>
 			</ul>
 		</div>
-		<table class="table table-hover">
+		<div id="page-content">
+		<table id="teasers" class="table table-hover">
 			<tr>
 				<th>Name</th>
 				<th>Type</th>
 				<th>Difficulty</th>
-
 			</tr>
 			<%
 				long i = 0;
 			%>
 			<c:forEach var="teaser" items="${teasers.getTeasers()}">
-				<tr onclick="location.href='game/${teaser.getTeaserId()}'">
+				<tr onclick="location.href='begin/${teaser.getTeaserId()}?teaserType=${teaser.getTeaserType()}'">
 					<td>${teaser.getName()}</td>
 					<td>${teaser.getTeaserType()}</td>
 					<td>${teasers.getSolvings().get(i).getDifficulty()}</td>
@@ -54,6 +75,7 @@
 				%>
 			</c:forEach>
 		</table>
+	</div>
 	</div>
 </body>
 </html>

@@ -1,5 +1,8 @@
 package model.user;
 
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
 import model.game.GameInfo;
 import model.teaser.TeaserType;
 
@@ -8,8 +11,12 @@ import model.teaser.TeaserType;
  * @version 1.0
  * @created 19-Dec-2014 11:30:04
  */
+@MappedSuperclass
 public abstract class UserSolvingTeaserTypeInfo {
 
+	@Id
+	private final long userId;
+	
 	private long countAutoSolved;
 	private long countSolved;
 	private long hintCount;
@@ -18,12 +25,18 @@ public abstract class UserSolvingTeaserTypeInfo {
 	private long totalTime;
 	private long averageTime;
 
-	public UserSolvingTeaserTypeInfo(TeaserType teaserType2) {
+	public UserSolvingTeaserTypeInfo(TeaserType teaserType2, long userId) {
 		this.teaserType = teaserType2;
+		this.userId = userId;
 	}
 
-	public abstract long getUserId();
-
+	/**
+	 * @return the userId
+	 */
+	public long getUserId() {
+		return userId;
+	}
+	
 	public void addSolution(GameInfo gameInfo){
 		if (gameInfo.isAutoSolved()) {
 			countAutoSolved++;

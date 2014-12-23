@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Brains</title>
+<title>Brains: login</title>
 <link rel="stylesheet" href="<c:url value='/resources/css/Site.css' />" />
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/bootstrap.css' />" />
@@ -11,7 +11,7 @@
 <body>
 	<div class="content-wrapper">
 		<div class="float-left">
-			<p class="site-title">Hi! Let's break your brain!</p>
+			<p class="site-title">Login</p>
 		</div>
 		<div class="float-right">
 			<a class="btn btn-info" href="registration">Registration</a>

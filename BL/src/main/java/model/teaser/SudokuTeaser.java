@@ -1,10 +1,7 @@
 package model.teaser;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.Lob;
 
 /**
  * @author Dmitri Belous
@@ -14,14 +11,17 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 public class SudokuTeaser extends Teaser {
 
-	@Id
-	@GenericGenerator(name="increment", strategy = "increment") 
-	@GeneratedValue(generator="increment")
-	private long id;
-
+	@Lob
 	private final int[][] matrix;
+	
 	private final int size;
 
+	@SuppressWarnings("unused")
+	private SudokuTeaser() {
+		size = 0;
+		matrix = null;
+	}
+	
 	public SudokuTeaser(SudokuTeaserCondition teaserCondition) {
 		size = teaserCondition.size();
 		matrix = new int[size][size];
@@ -64,22 +64,6 @@ public class SudokuTeaser extends Teaser {
 			sb.append("\n");
 		}
 		return sb.toString();
-	}
-	
-	/**
-	 * @return the id
-	 */
-	@Override
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	@Override
-	public void setId(long id) {
-		this.id = id;
 	}
 	
 }

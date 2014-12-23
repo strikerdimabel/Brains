@@ -5,8 +5,10 @@ import manager.Manager;
 
 public class ManagerFactory {
 	
-	public static Manager newManager() {
-		return new Manager(new DaoImpl());
+	private static final Manager INSTANCE = new Manager(new DaoImpl());
+	
+	public static Manager getManager() {
+		return INSTANCE;
 	}
 	
 }

@@ -1,10 +1,7 @@
 package model.user;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import model.game.GameInfo;
 
@@ -12,8 +9,6 @@ import model.game.GameInfo;
 public class UserSolvingInfo {
 
 	@Id
-	@GenericGenerator(name="increment", strategy = "increment") 
-	@GeneratedValue(generator="increment")
 	private final long userId;
 
 	private long rating;
@@ -23,6 +18,11 @@ public class UserSolvingInfo {
 	private long totalTime;
 	private long averageTime;
 
+	@SuppressWarnings("unused")
+	private UserSolvingInfo() {
+		userId = 0;
+	}
+	
 	public UserSolvingInfo(long userId) {
 		this.userId = userId;
 	}

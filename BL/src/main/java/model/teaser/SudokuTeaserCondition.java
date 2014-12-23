@@ -1,10 +1,7 @@
 package model.teaser;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.Lob;
 
 /**
  * @author Dmitri Belous
@@ -13,36 +10,18 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 public class SudokuTeaserCondition extends TeaserCondition {
-
+	
 	private int size = 9;
+	
 	private int rowsSmall = 3;
 	private int cmnsSmall = 3;
+	
+	@Lob
 	private int[][] matrix = new int[size][size];
-
-	@Id
-	@GenericGenerator(name="increment", strategy = "increment") 
-	@GeneratedValue(generator="increment")
-	private long teaserId;
 
 	public SudokuTeaserCondition() {
 	}
-		
-	/**
-	 * @return the teaserId
-	 */
-	@Override
-	public long getTeaserId() {
-		return teaserId;
-	}
-
-	/**
-	 * @param teaserId the teaserId to set
-	 */
-	@Override
-	public void setTeaserId(long teaserId) {
-		this.teaserId = teaserId;
-	}
-
+	
 	public SudokuTeaserCondition(int[][] matrix) {
 		for (int i = 0; i < size; ++i) {
 			for (int j = 0; j < size; ++j) {
@@ -81,6 +60,27 @@ public class SudokuTeaserCondition extends TeaserCondition {
 			sb.append("\n");
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * @return the size
+	 */
+	public int getSize() {
+		return size;
+	}
+
+	/**
+	 * @return the rowsSmall
+	 */
+	public int getRowsSmall() {
+		return rowsSmall;
+	}
+
+	/**
+	 * @return the cmnsSmall
+	 */
+	public int getCmnsSmall() {
+		return cmnsSmall;
 	}
 
 }

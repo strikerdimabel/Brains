@@ -4,7 +4,7 @@ import model.game.GameInfo;
 import model.game.Step;
 import model.teaser.Teaser;
 import model.teaser.TeaserCondition;
-import model.teaser.TeaserType;
+import model.teaser.TeaserInfo;
 
 /**
  * @author Dmitri Belous
@@ -16,13 +16,13 @@ public class Game {
 	private final GameInfo gameInfo;
 	private final Solver solver;
 	private final TeaserCondition teaserCondition;
-	private final TeaserType teaserType;
+	private final TeaserInfo teaserInfo;
 	
-	public Game(TeaserCondition teaserCondition, TeaserType teaserType){
+	public Game(TeaserCondition teaserCondition, TeaserInfo teaserInfo){
 		gameInfo = new GameInfo();
-		this.solver = SolverFactory.newSolver(teaserCondition, teaserType);
+		this.solver = SolverFactory.newSolver(teaserCondition, teaserInfo.getTeaserType());
 		this.teaserCondition = teaserCondition;
-		this.teaserType = teaserType;
+		this.teaserInfo = teaserInfo;
 	}
 
 	public void autoSolve() {
@@ -60,8 +60,8 @@ public class Game {
 	/**
 	 * @return the type
 	 */
-	public TeaserType getTeaserType() {
-		return teaserType;
+	public TeaserInfo getTeaserInfo() {
+		return teaserInfo;
 	}
 
 }

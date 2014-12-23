@@ -38,7 +38,7 @@ public class Manager {
 		this.dao = dao;
 	}
 	
-	public boolean addTeaser(TeaserCondition cond, TeaserInfo info) {
+	public boolean addTeaser(TeaserCondition cond, TeaserInfo info, int defDifficulty) {
 		Solver solver = SolverFactory.newSolver(cond, info.getTeaserType());
 		Teaser solution = solver.solve();
 		if (solution == null) {
@@ -49,6 +49,8 @@ public class Manager {
 		dao.saveEntity(solution);
 		cond.setTeaserId(info.getTeaserId());
 		dao.saveEntity(cond);
+		TeaserSolvingInfo solvingInfo = new TeaserSolvingInfo(info.getTeaserId(), defDifficulty);
+		dao.saveEntity(solvingInfo);
 		return true;
 	}
 
@@ -69,7 +71,7 @@ public class Manager {
 			TeaserInfo teaserInfo = dao.getEntityById(TeaserInfo.class, userGame.getTeaserId());
 			Class<? extends TeaserCondition> tClass = TeaserConditionClasses.getTeaserConditionClass(teaserInfo.getTeaserType());
 			TeaserCondition condition = dao.getEntityById(tClass, userGame.getTeaserId());
-			game = new Game(condition, teaserType);
+			game = new Game(condition, teaserInfo);
 			games.put(userGame, game);
 		}
 		return game.getTeaser();
@@ -91,6 +93,11 @@ public class Manager {
 		Game game = games.get(userGame);
 		return game.doStep(step);
 	}
+	
+	public TeaserInfo getTeaserInfo(UserGame userGame) {
+		Game game = games.get(userGame);
+		return game.getTeaserInfo();
+	}
 
 	public GameInfo end(UserGame userGame) {
 		Game game = games.get(userGame);
@@ -99,7 +106,7 @@ public class Manager {
 		if (game.isFinished()) {
 			long tId = userGame.getTeaserId();
 			long uId = userGame.getUserId();
-			TeaserType teaserType = game.getTeaserType();
+			TeaserType teaserType = game.getTeaserInfo().getTeaserType();
 			TeaserSolvingInfo teaserSolvingInfo = dao.getEntityById(TeaserSolvingInfo.class, tId);
 			if (teaserSolvingInfo == null) {
 				teaserSolvingInfo = new TeaserSolvingInfo(tId);
@@ -133,7 +140,7 @@ public class Manager {
 	public Teaser getSolution(UserGame userGame) {
 		Game game = games.get(userGame);
 		game.autoSolve();
-		return dao.getEntityById(game.getTeaser().getClass(), userGame.getTeaserId());
+		return dao.getByUniqueField(game.getTeaser().getClass(), "teaserId", userGame.getTeaserId());
 	}
 
 	public TeaserCondition getTeaserCondition(UserGame userGame) {

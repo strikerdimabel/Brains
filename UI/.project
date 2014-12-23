@@ -3,6 +3,7 @@
 	<name>UI</name>
 	<comment></comment>
 	<projects>
+		<project>Bootstraper</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

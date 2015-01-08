@@ -55,6 +55,9 @@
 			</ul>
 		</div>
 		<div id="page-content">
+		<div class="float-right">
+		<a href="" class="btn btn-info">Add teaser</a>
+		</div>
 		<table id="teasers" class="table table-hover">
 			<tr>
 				<th>Name</th>

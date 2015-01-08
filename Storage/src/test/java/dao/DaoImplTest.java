@@ -1,5 +1,9 @@
 package dao;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import model.game.GameInfo;
 import model.teaser.SudokuTeaserCondition;
 import model.teaser.Teaser;
@@ -83,6 +87,20 @@ public class DaoImplTest extends Assert {
 		dao.saveEntity(solution);
 		cnd.setTeaserId(1);
 		dao.saveEntity(cnd);
+	}
+	
+	@Test
+	public void test() {
+		List<Long> list = new ArrayList<Long>();
+		for (long i = 0; i < 100000000; ++i) {
+			list.add(i);
+		}
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
